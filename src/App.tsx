@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import { Plus, Search, Loader2, Fingerprint, History, ChevronRight, Globe, AlertCircle } from "lucide-react";
+import { Plus, Search, Loader2, History, ChevronRight, Globe, AlertCircle } from "lucide-react";
 import { GraphVisualization } from "./components/GraphVisualization";
 import { GoogleGenAI } from "@google/genai";
 import { clsx, type ClassValue } from "clsx";
@@ -171,8 +171,13 @@ export default function App() {
       <aside className="w-80 border-r border-white/10 flex flex-col bg-[#0a0a0a]">
         <div className="p-6 border-b border-white/10 bg-[#0a0a0a]">
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-              <Fingerprint className="w-6 h-6 text-black" />
+            <div className="w-10 h-10 bg-black border border-white/10 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.05)] overflow-hidden">
+              <img 
+                src="https://account.neuralend.co/NeuralendLogo.svg" 
+                alt="Neuralend Logo" 
+                className="w-full h-full object-contain p-1.5"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <div className="flex flex-col">
               <h1 className="text-lg font-bold tracking-tight leading-none">Neuralend</h1>
@@ -295,8 +300,13 @@ export default function App() {
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center p-12 text-center bg-[#050505]">
-            <div className="w-24 h-24 bg-white rounded-[2rem] flex items-center justify-center mb-10 shadow-[0_0_50px_rgba(255,255,255,0.1)]">
-              <Fingerprint className="w-12 h-12 text-black" />
+            <div className="w-24 h-24 bg-black border border-white/10 rounded-[2rem] flex items-center justify-center mb-10 shadow-[0_0_50px_rgba(255,255,255,0.05)] overflow-hidden">
+              <img 
+                src="https://account.neuralend.co/NeuralendLogo.svg" 
+                alt="Neuralend Logo" 
+                className="w-20 h-20 object-contain"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <h2 className="text-4xl font-bold tracking-tighter mb-6">Neuralend Research</h2>
             <p className="text-white/40 max-w-md text-sm leading-relaxed uppercase tracking-[0.2em] font-light">
