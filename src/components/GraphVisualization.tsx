@@ -80,12 +80,25 @@ export const GraphVisualization: React.FC<{ data: GraphData }> = ({ data }) => {
       .attr("font-weight", "bold")
       .attr("text-transform", "uppercase")
       .attr("letter-spacing", "0.1em")
+      .attr("opacity", 0)
+      .style("pointer-events", "none")
       .text(d => d.label || "");
 
     const node = container.append("g")
       .selectAll("g")
       .data(data.nodes)
       .join("g")
+      .attr("cursor", "pointer")
+      .on("mouseover", (event, d) => {
+        linkText.filter(l => {
+          const sourceId = typeof l.source === 'object' ? (l.source as Node).id : l.source;
+          const targetId = typeof l.target === 'object' ? (l.target as Node).id : l.target;
+          return sourceId === d.id || targetId === d.id;
+        }).transition().duration(200).attr("opacity", 1);
+      })
+      .on("mouseout", () => {
+        linkText.transition().duration(200).attr("opacity", 0);
+      })
       .call(d3.drag<SVGGElement, Node>()
         .on("start", dragstarted)
         .on("drag", dragged)
