@@ -75,7 +75,7 @@ export const GraphVisualization: React.FC<{ data: GraphData }> = ({ data }) => {
       .data(data.links)
       .join("text")
       .attr("font-size", "8px")
-      .attr("fill", "rgba(255, 255, 255, 0.2)")
+      .attr("fill", "#ffffff")
       .attr("text-anchor", "middle")
       .attr("font-weight", "bold")
       .attr("text-transform", "uppercase")
@@ -106,7 +106,7 @@ export const GraphVisualization: React.FC<{ data: GraphData }> = ({ data }) => {
       .attr("dy", ".35em")
       .attr("font-size", "10px")
       .attr("font-weight", "600")
-      .attr("fill", "rgba(255, 255, 255, 0.8)")
+      .attr("fill", "#60a5fa")
       .attr("text-transform", "uppercase")
       .attr("letter-spacing", "0.05em")
       .text(d => d.id);
