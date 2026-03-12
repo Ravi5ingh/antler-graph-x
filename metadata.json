@@ -1,5 +1,5 @@
 {
-  "name": "GraphMind",
-  "description": "A background service that builds knowledge graphs from internet search results for any topic.",
+  "name": "Neuralend Research",
+  "description": "A sophisticated background service that builds interactive knowledge graphs from internet research.",
   "requestFramePermissions": []
 }

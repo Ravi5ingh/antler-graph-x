@@ -65,18 +65,21 @@ export const GraphVisualization: React.FC<{ data: GraphData }> = ({ data }) => {
       .selectAll("line")
       .data(data.links)
       .join("line")
-      .attr("stroke", "#e2e8f0")
+      .attr("stroke", "rgba(255, 255, 255, 0.1)")
       .attr("stroke-opacity", 0.6)
-      .attr("stroke-width", 2)
+      .attr("stroke-width", 1)
       .attr("marker-end", "url(#arrowhead)");
 
     const linkText = container.append("g")
       .selectAll("text")
       .data(data.links)
       .join("text")
-      .attr("font-size", "10px")
-      .attr("fill", "#94a3b8")
+      .attr("font-size", "8px")
+      .attr("fill", "rgba(255, 255, 255, 0.2)")
       .attr("text-anchor", "middle")
+      .attr("font-weight", "bold")
+      .attr("text-transform", "uppercase")
+      .attr("letter-spacing", "0.1em")
       .text(d => d.label || "");
 
     const node = container.append("g")
@@ -89,22 +92,23 @@ export const GraphVisualization: React.FC<{ data: GraphData }> = ({ data }) => {
         .on("end", dragended) as any);
 
     node.append("circle")
-      .attr("r", 12)
+      .attr("r", 6)
       .attr("fill", d => {
-        if (d.type === 'Person') return '#3b82f6';
-        if (d.type === 'Place') return '#10b981';
-        if (d.type === 'Organization') return '#f59e0b';
-        return '#64748b';
+        if (d.type === 'Person') return '#60a5fa';
+        if (d.type === 'Place') return '#34d399';
+        if (d.type === 'Organization') return '#fbbf24';
+        return '#ffffff';
       })
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 2);
+      .attr("filter", "drop-shadow(0 0 8px rgba(255,255,255,0.2))");
 
     node.append("text")
-      .attr("dx", 16)
+      .attr("dx", 12)
       .attr("dy", ".35em")
-      .attr("font-size", "12px")
-      .attr("font-weight", "500")
-      .attr("fill", "#1e293b")
+      .attr("font-size", "10px")
+      .attr("font-weight", "600")
+      .attr("fill", "rgba(255, 255, 255, 0.8)")
+      .attr("text-transform", "uppercase")
+      .attr("letter-spacing", "0.05em")
       .text(d => d.id);
 
     simulation.on("tick", () => {
@@ -147,7 +151,7 @@ export const GraphVisualization: React.FC<{ data: GraphData }> = ({ data }) => {
   return (
     <svg 
       ref={svgRef} 
-      className="w-full h-full bg-slate-50 cursor-grab active:cursor-grabbing"
+      className="w-full h-full bg-black cursor-grab active:cursor-grabbing"
     />
   );
 };

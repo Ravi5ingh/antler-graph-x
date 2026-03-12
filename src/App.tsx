@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import { Plus, Search, Loader2, Network, History, ChevronRight, Globe, AlertCircle } from "lucide-react";
+import { Plus, Search, Loader2, Fingerprint, History, ChevronRight, Globe, AlertCircle } from "lucide-react";
 import { GraphVisualization } from "./components/GraphVisualization";
 import { GoogleGenAI } from "@google/genai";
 import { clsx, type ClassValue } from "clsx";
@@ -166,15 +166,18 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen bg-white text-slate-900 font-sans overflow-hidden">
+    <div className="flex h-screen bg-black text-white font-sans overflow-hidden selection:bg-white/20">
       {/* Sidebar */}
-      <aside className="w-80 border-r border-slate-200 flex flex-col bg-slate-50/50">
-        <div className="p-6 border-b border-slate-200 bg-white">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <Network className="w-5 h-5 text-white" />
+      <aside className="w-80 border-r border-white/10 flex flex-col bg-[#0a0a0a]">
+        <div className="p-6 border-b border-white/10 bg-[#0a0a0a]">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+              <Fingerprint className="w-6 h-6 text-black" />
             </div>
-            <h1 className="text-xl font-bold tracking-tight">GraphMind</h1>
+            <div className="flex flex-col">
+              <h1 className="text-lg font-bold tracking-tight leading-none">Neuralend</h1>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-semibold mt-1">Research</span>
+            </div>
           </div>
           
           <form onSubmit={createTopic} className="relative">
@@ -182,13 +185,13 @@ export default function App() {
               type="text"
               value={newTopicName}
               onChange={(e) => setNewTopicName(e.target.value)}
-              placeholder="New topic..."
-              className="w-full pl-4 pr-10 py-2 bg-slate-100 border-transparent rounded-lg focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all text-sm"
+              placeholder="Initialize research..."
+              className="w-full pl-4 pr-10 py-2.5 bg-white/5 border border-white/10 rounded-xl focus:bg-white/10 focus:border-white/30 focus:outline-none transition-all text-sm placeholder:text-white/20"
             />
             <button 
               type="submit"
               disabled={isCreating || !newTopicName.trim()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 disabled:opacity-50"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-white/30 hover:text-white disabled:opacity-50 transition-colors"
             >
               {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-5 h-5" />}
             </button>
@@ -196,66 +199,66 @@ export default function App() {
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
-          <div className="flex items-center gap-2 px-2 mb-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+          <div className="flex items-center gap-2 px-2 mb-4 text-[10px] font-bold text-white/30 uppercase tracking-[0.15em]">
             <History className="w-3 h-3" />
-            Recent Topics
+            Archive
           </div>
           {topics.map((topic) => (
             <button
               key={topic.id}
               onClick={() => setSelectedTopic(topic)}
               className={cn(
-                "w-full flex items-center justify-between p-3 rounded-xl transition-all text-left group",
+                "w-full flex items-center justify-between p-4 rounded-xl transition-all text-left group border",
                 selectedTopic?.id === topic.id 
-                  ? "bg-white shadow-sm border border-slate-200 ring-1 ring-slate-200" 
-                  : "hover:bg-slate-100 text-slate-600"
+                  ? "bg-white/10 border-white/20 shadow-lg" 
+                  : "hover:bg-white/5 border-transparent text-white/60 hover:text-white"
               )}
             >
               <div className="flex flex-col overflow-hidden">
                 <span className="font-medium text-sm truncate">{topic.name}</span>
-                <span className="text-[10px] opacity-60">
+                <span className="text-[10px] opacity-40 mt-1">
                   {new Date(topic.created_at).toLocaleDateString()}
                 </span>
               </div>
               <div className="flex items-center">
-                {topic.status === 'processing' && <Loader2 className="w-3 h-3 animate-spin text-indigo-500" />}
-                {topic.status === 'error' && <AlertCircle className="w-3 h-3 text-red-500" />}
+                {topic.status === 'processing' && <Loader2 className="w-3 h-3 animate-spin text-white/50" />}
+                {topic.status === 'error' && <AlertCircle className="w-3 h-3 text-red-500/80" />}
                 {topic.status === 'completed' && <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />}
               </div>
             </button>
           ))}
           {topics.length === 0 && (
             <div className="text-center py-12 px-4">
-              <p className="text-sm text-slate-400">No topics yet. Create one to start exploring.</p>
+              <p className="text-xs text-white/20">No active research nodes.</p>
             </div>
           )}
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col relative">
+      <main className="flex-1 flex flex-col relative bg-black">
         {selectedTopic ? (
           <>
-            <header className="p-6 border-b border-slate-200 flex items-center justify-between bg-white z-10">
+            <header className="p-6 border-b border-white/10 flex items-center justify-between bg-black/50 backdrop-blur-md z-10">
               <div>
-                <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">
+                <h2 className="text-xl font-bold tracking-tight flex items-center gap-3">
                   {selectedTopic.name}
                   {selectedTopic.status === 'processing' && (
-                    <span className="text-xs font-normal bg-indigo-50 text-indigo-600 px-2 py-1 rounded-full flex items-center gap-1.5 animate-pulse">
+                    <span className="text-[10px] font-bold uppercase tracking-widest bg-white/10 text-white/60 px-2.5 py-1 rounded-full flex items-center gap-2 animate-pulse border border-white/5">
                       <Loader2 className="w-3 h-3 animate-spin" />
-                      Building Graph...
+                      Synthesizing
                     </span>
                   )}
                 </h2>
-                <p className="text-sm text-slate-500 mt-1">
-                  Knowledge graph synthesized from top search results.
+                <p className="text-xs text-white/40 mt-1 uppercase tracking-wider">
+                  Neural Knowledge Mapping System
                 </p>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 text-xs text-slate-400">
-                  <div className="w-2 h-2 rounded-full bg-blue-500"></div> Person
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 ml-2"></div> Place
-                  <div className="w-2 h-2 rounded-full bg-amber-500 ml-2"></div> Org
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/30">
+                  <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.5)]"></div> Entity</div>
+                  <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></div> Location</div>
+                  <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div> Concept</div>
                 </div>
               </div>
             </header>
@@ -263,53 +266,52 @@ export default function App() {
             <div className="flex-1 relative overflow-hidden">
               {selectedTopic.status === 'completed' ? (
                 isLoadingGraph ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-slate-50/50">
-                    <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black">
+                    <Loader2 className="w-8 h-8 animate-spin text-white/20" />
                   </div>
                 ) : (
                   <GraphVisualization data={graphData} />
                 )
               ) : selectedTopic.status === 'processing' ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50/50 p-12 text-center">
-                  <div className="w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center mb-6 animate-bounce">
-                    <Globe className="w-12 h-12 text-indigo-600" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black p-12 text-center">
+                  <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-8 animate-pulse border border-white/10">
+                    <Globe className="w-10 h-10 text-white/40" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Analyzing the Web</h3>
-                  <p className="text-slate-500 max-w-md">
-                    Our background service is currently searching the internet, scraping content, and extracting entities to build your knowledge graph. This usually takes 15-30 seconds.
+                  <h3 className="text-lg font-bold mb-3 tracking-tight">Accessing Global Intelligence</h3>
+                  <p className="text-white/40 max-w-sm text-xs leading-relaxed uppercase tracking-widest">
+                    Searching web nodes, scraping data clusters, and extracting neural relationships.
                   </p>
                 </div>
               ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50/50 p-12 text-center">
-                  <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Processing Error</h3>
-                  <p className="text-slate-500">
-                    Something went wrong while building the graph for this topic. Please try creating it again.
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black p-12 text-center">
+                  <AlertCircle className="w-10 h-10 text-red-500/50 mb-4" />
+                  <h3 className="text-lg font-bold mb-2">Node Failure</h3>
+                  <p className="text-white/40 text-xs uppercase tracking-widest">
+                    Critical error during graph synthesis.
                   </p>
                 </div>
               )}
             </div>
           </>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center p-12 text-center bg-slate-50/30">
-            <div className="w-20 h-20 bg-white shadow-xl rounded-3xl flex items-center justify-center mb-8 rotate-3">
-              <Network className="w-10 h-10 text-indigo-600" />
+          <div className="flex-1 flex flex-col items-center justify-center p-12 text-center bg-[#050505]">
+            <div className="w-24 h-24 bg-white rounded-[2rem] flex items-center justify-center mb-10 shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+              <Fingerprint className="w-12 h-12 text-black" />
             </div>
-            <h2 className="text-3xl font-bold tracking-tight mb-4">Welcome to GraphMind</h2>
-            <p className="text-slate-500 max-w-lg text-lg leading-relaxed">
-              Enter any topic in the sidebar to start a background research task. 
-              We'll crawl the web and build an interactive knowledge graph for you.
+            <h2 className="text-4xl font-bold tracking-tighter mb-6">Neuralend Research</h2>
+            <p className="text-white/40 max-w-md text-sm leading-relaxed uppercase tracking-[0.2em] font-light">
+              Autonomous Intelligence for Knowledge Graph Synthesis
             </p>
-            <div className="mt-12 grid grid-cols-3 gap-6 w-full max-w-2xl">
+            <div className="mt-16 grid grid-cols-3 gap-8 w-full max-w-2xl">
               {[
-                { label: "Search", desc: "Real-time web crawling" },
-                { label: "Scrape", desc: "Content extraction" },
-                { label: "Graph", desc: "Entity mapping" }
+                { label: "Crawl", desc: "Web Node Discovery" },
+                { label: "Extract", desc: "Neural Parsing" },
+                { label: "Map", desc: "Relationship Synthesis" }
               ].map((step, i) => (
-                <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                  <div className="text-indigo-600 font-bold mb-1">0{i+1}</div>
-                  <div className="font-bold text-sm mb-1">{step.label}</div>
-                  <div className="text-xs text-slate-400">{step.desc}</div>
+                <div key={i} className="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-colors group">
+                  <div className="text-white/20 font-bold mb-2 text-xs tracking-widest group-hover:text-white/40 transition-colors">0{i+1}</div>
+                  <div className="font-bold text-xs uppercase tracking-widest mb-2">{step.label}</div>
+                  <div className="text-[10px] text-white/30 uppercase tracking-wider">{step.desc}</div>
                 </div>
               ))}
             </div>

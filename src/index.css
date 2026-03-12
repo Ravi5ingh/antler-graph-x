@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+@theme {
+  --color-bg: #050505;
+  --color-surface: #0a0a0a;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-accent: #ffffff;
+  --color-muted: rgba(255, 255, 255, 0.5);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-accent);
+}
