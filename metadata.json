@@ -1,0 +1,5 @@
+{
+  "name": "GraphMind",
+  "description": "A background service that builds knowledge graphs from internet search results for any topic.",
+  "requestFramePermissions": []
+}
